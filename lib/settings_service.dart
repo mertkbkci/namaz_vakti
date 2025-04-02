@@ -63,7 +63,7 @@ static Future<void> setNotificationOffset(int minutes) async {
 
 static Future<int> getNotificationOffset() async {
   final prefs = await SharedPreferences.getInstance();
-  return prefs.getInt(keyNotificationOffset) ?? -5; 
+  return prefs.getInt(keyNotificationOffset) ?? 0; 
 }
 
 

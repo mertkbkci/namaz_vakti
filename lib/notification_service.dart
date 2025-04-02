@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:namaz_vakti/settings_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -29,7 +30,7 @@ static Future<void> scheduleNotification({
   final offset = await SettingsService.getNotificationOffset();
   final isSilent = await SettingsService.getSilentNotification();
   final scheduledTime = dateTime.add(Duration(minutes: offset));
-
+debugPrint("📅 Planlanan bildirim zamanı: $scheduledTime");
   if (scheduledTime.isBefore(DateTime.now())) return;
 
   const androidDetails = AndroidNotificationDetails(
