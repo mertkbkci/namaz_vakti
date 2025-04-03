@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:namaz_vakti/api_prayer_times_model.dart';
-import 'package:namaz_vakti/namaz_vakti_api_service.dart';
-import 'package:namaz_vakti/settings_service.dart';
+import 'package:namaz_vakti/model/api_prayer_times_model.dart';
+import 'package:namaz_vakti/services/namaz_vakti_api_service.dart';
+import 'package:namaz_vakti/services/settings_service.dart';
 
 class ImsakiyePage extends StatefulWidget {
   const ImsakiyePage({super.key});

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dua_model.dart';
+import '../model/dua_model.dart';
 
 class DuaPage extends StatefulWidget {
   const DuaPage({super.key});
@@ -45,7 +45,17 @@ class _DuaPageState extends State<DuaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Günün Duası")),
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: Colors.white),
+        //   onPressed: () => Navigator.pop(context),
+        // ),
+        title: const Text("Günün Duası",
+            style: TextStyle(color: Colors.white, fontSize: 20)),
+      ),
       body: _currentDua == null
           ? const Center(child: CircularProgressIndicator())
           : Padding(
@@ -58,7 +68,8 @@ class _DuaPageState extends State<DuaPage> {
                   Text(
                     '"${_currentDua!.text}"',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+                    style: const TextStyle(
+                        fontSize: 20, fontStyle: FontStyle.italic),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -73,7 +84,8 @@ class _DuaPageState extends State<DuaPage> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
                     ),
                   )
                 ],

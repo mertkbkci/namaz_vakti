@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:namaz_vakti/settings_service.dart';
+import 'package:namaz_vakti/services/settings_service.dart';
 
 class CitySelectorDialog extends StatefulWidget {
   const CitySelectorDialog({super.key});

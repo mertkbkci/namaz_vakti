@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:namaz_vakti/home_screen.dart';
-import 'package:namaz_vakti/notification_service.dart';
-import 'package:namaz_vakti/theme_provider.dart';
+import 'package:namaz_vakti/screens/app_navbar_screen.dart';
+import 'package:namaz_vakti/screens/home_screen.dart';
+import 'package:namaz_vakti/services/notification_service.dart';
+import 'package:namaz_vakti/provider/theme_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -66,7 +67,7 @@ void initState() {
       theme: ThemeData.light(useMaterial3: true),
       darkTheme: ThemeData.dark(useMaterial3: true),
       themeMode: themeProvider.themeMode,
-      home: const HomePage(),
+      home: const AppNavbarScreen(),
     );
   }
 }

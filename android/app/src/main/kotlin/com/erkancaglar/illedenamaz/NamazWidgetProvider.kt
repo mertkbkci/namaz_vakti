@@ -1,10 +1,10 @@
-package com.example.namaz_vakti
+package com.erkancaglar.illedenamaz
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.widget.RemoteViews
-import com.example.namaz_vakti.R
+import com.erkancaglar.illedenamaz.R
 
 class NamazWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {

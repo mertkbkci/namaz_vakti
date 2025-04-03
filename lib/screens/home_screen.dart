@@ -4,17 +4,17 @@ import 'package:geolocator/geolocator.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-import 'package:namaz_vakti/api_prayer_times_model.dart';
-import 'package:namaz_vakti/city_selector_dialog.dart';
-import 'package:namaz_vakti/dua_page.dart';
-import 'package:namaz_vakti/home_widget_helper.dart';
-import 'package:namaz_vakti/location_service.dart';
-import 'package:namaz_vakti/namaz_vakti_api_service.dart';
-import 'package:namaz_vakti/notification_service.dart';
-import 'package:namaz_vakti/prayer_time_service.dart';
-import 'package:namaz_vakti/qibla_page.dart';
-import 'package:namaz_vakti/setting_page.dart';
-import 'package:namaz_vakti/settings_service.dart';
+import 'package:namaz_vakti/model/api_prayer_times_model.dart';
+import 'package:namaz_vakti/widgets/city_selector_dialog.dart';
+import 'package:namaz_vakti/screens/dua_page.dart';
+import 'package:namaz_vakti/helper/home_widget_helper.dart';
+import 'package:namaz_vakti/services/location_service.dart';
+import 'package:namaz_vakti/services/namaz_vakti_api_service.dart';
+import 'package:namaz_vakti/services/notification_service.dart';
+import 'package:namaz_vakti/services/prayer_time_service.dart';
+import 'package:namaz_vakti/screens/qibla_page.dart';
+import 'package:namaz_vakti/screens/setting_page.dart';
+import 'package:namaz_vakti/services/settings_service.dart';
 
 
 
@@ -208,33 +208,33 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         title: const Text('Namaz Vakitleri',
             style: TextStyle(color: Colors.white)),
-        leading: IconButton(
-          icon: const Icon(Icons.menu_book, color: Colors.white),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const DuaPage()),
-            );
-          },
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.menu_book, color: Colors.white),
+        //   onPressed: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (_) => const DuaPage()),
+        //     );
+        //   },
+        // ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.explore, color: Colors.white),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const QiblaPage()),
-              );
-            },
-          ),
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SettingsPage()));
-              },
-              icon: Icon(Icons.settings, color: Colors.white)),
+          // IconButton(
+          //   icon: const Icon(Icons.explore, color: Colors.white),
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(builder: (_) => const QiblaPage()),
+          //     );
+          //   },
+          // ),
+          // IconButton(
+          //     onPressed: () {
+          //       Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: (context) => const SettingsPage()));
+          //     },
+          //     icon: Icon(Icons.settings, color: Colors.white)),
           IconButton(
             icon: const Icon(Icons.location_city, color: Colors.white),
             onPressed: () async {
@@ -265,9 +265,19 @@ class _HomePageState extends State<HomePage> {
           : _currentPosition == null
               ? Center(child: Lottie.asset("assets/lottie/loading.json"))
               : (_apiPrayerTimes != null
-                  ? buildPrayerGrid(_apiPrayerTimes!)
+                  ? RefreshIndicator(
+                    onRefresh: () async {
+                      setState(() => _isLoading = true);
+                      await _loadLocation();
+                    },
+                    child: buildPrayerGrid(_apiPrayerTimes!))
                   : (_prayerTimes != null
-                      ? buildPrayerGrid(_prayerTimes!)
+                      ? RefreshIndicator(
+                        onRefresh: () async {
+                      setState(() => _isLoading = true);
+                      await _loadLocation();
+                    },
+                        child: buildPrayerGrid(_prayerTimes!))
                       : const Center(
                           child: Text("Namaz vakitleri yüklenemedi")))),
     );

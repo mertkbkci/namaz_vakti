@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:namaz_vakti/settings_service.dart';
+import 'package:namaz_vakti/services/settings_service.dart';
 
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;

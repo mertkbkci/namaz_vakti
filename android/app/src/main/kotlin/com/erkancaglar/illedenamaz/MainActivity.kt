@@ -1,4 +1,4 @@
-package com.example.namaz_vakti
+package com.erkancaglar.illedenamaz
 
 import io.flutter.embedding.android.FlutterActivity
 

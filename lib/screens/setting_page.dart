@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:namaz_vakti/settings_service.dart';
-import 'package:namaz_vakti/theme_provider.dart';
+import 'package:namaz_vakti/services/settings_service.dart';
+import 'package:namaz_vakti/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -39,7 +39,15 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Ayarlar')),
+      appBar: AppBar(
+         backgroundColor: Colors.green,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: Colors.white),
+        //   onPressed: () => Navigator.pop(context),
+        // ),
+        title: const Text('Ayarlar', style: TextStyle(color: Colors.white, fontSize: 20)),),
       body: ListView(
         children: [
           const ListTile(
