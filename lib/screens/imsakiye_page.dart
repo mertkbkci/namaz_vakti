@@ -1,111 +1,57 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:namaz_vakti/model/api_prayer_times_model.dart';
-import 'package:namaz_vakti/services/namaz_vakti_api_service.dart';
-import 'package:namaz_vakti/services/settings_service.dart';
+// import 'package:flutter/material.dart';
+// import 'package:namaz_vakti/provider/location/location_provider.dart';
+// import 'package:namaz_vakti/provider/yeni/location_provider.dart';
 
-class ImsakiyePage extends StatefulWidget {
-  const ImsakiyePage({super.key});
+// import 'package:provider/provider.dart';
 
-  @override
-  State<ImsakiyePage> createState() => _ImsakiyePageState();
-}
+// class ImsakiyePage extends StatelessWidget {
+//   final String country;
+//   final String region;
+//   final String city;
 
-class _ImsakiyePageState extends State<ImsakiyePage> {
-  DateTime selectedDate = DateTime.now();
-  ApiPrayerTimes? prayerTimes;
-  bool isLoading = false;
+//   const ImsakiyePage({
+//     super.key,
+//     required this.country,
+//     required this.region,
+//     required this.city,
+//   });
 
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return ChangeNotifierProvider(
+//       create: (_) => LocationProvider()
+//         ..fetchMonthlyPrayerTimes(country, region, city, DateTime.now().month, DateTime.now().year),
+//       child: const _ImsakiyeBody(),
+//     );
+//   }
+// }
 
-  Future<void> _loadData() async {
-    setState(() => isLoading = true);
-    final city = await SettingsService.getApiCity();
-    final api = NamazVaktiApiService();
-    final result = await api.fetchPrayerTimes(city, date: selectedDate);
-    setState(() {
-      prayerTimes = result;
-      isLoading = false;
-    });
-  }
+// class _ImsakiyeBody extends StatelessWidget {
+//   const _ImsakiyeBody();
 
-  void _changeDate(int dayOffset) {
-    setState(() {
-      selectedDate = selectedDate.add(Duration(days: dayOffset));
-    });
-    _loadData();
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     final provider = Provider.of<LocationProvider>(context);
 
-  Future<void> _selectDate() async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
-      locale: const Locale('tr', 'TR'),
-    );
-    if (picked != null) {
-      setState(() => selectedDate = picked);
-      _loadData();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final formatted = DateFormat.yMMMMEEEEd('tr_TR').format(selectedDate);
-
-    return Scaffold(
-      appBar: AppBar(title: const Text('İmsakiye')),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : prayerTimes == null
-              ? const Center(child: Text('Veri alınamadı'))
-              : Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Text(formatted, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.arrow_back),
-                            onPressed: () => _changeDate(-1),
-                          ),
-                          ElevatedButton.icon(
-                            icon: const Icon(Icons.calendar_today),
-                            label: const Text('Tarih Seç'),
-                            onPressed: _selectDate,
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.arrow_forward),
-                            onPressed: () => _changeDate(1),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      _buildTimeRow('İmsak', prayerTimes!.fajr),
-                      _buildTimeRow('Güneş', prayerTimes!.sunrise),
-                      _buildTimeRow('Öğle', prayerTimes!.dhuhr),
-                      _buildTimeRow('İkindi', prayerTimes!.asr),
-                      _buildTimeRow('Akşam', prayerTimes!.maghrib),
-                      _buildTimeRow('Yatsı', prayerTimes!.isha),
-                    ],
-                  ),
-                ),
-    );
-  }
-
-  Widget _buildTimeRow(String title, DateTime time) {
-    return ListTile(
-      leading: const Icon(Icons.access_time),
-      title: Text(title),
-      trailing: Text(DateFormat.Hm().format(time)),
-    );
-  }
-}
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('İmsakiye Takvimi'),
+//         backgroundColor: Colors.green,
+//       ),
+//       body: provider.isLoading
+//           ? const Center(child: CircularProgressIndicator())
+//           : ListView.builder(
+//               itemCount: provider.monthlyPrayerTimes.length,
+//               itemBuilder: (context, index) {
+//                 final day = provider.monthlyPrayerTimes[index];
+//                 return ListTile(
+//                   title: Text(day['date']),
+//                   subtitle: Text(
+//                     'İmsak: ${day['fajr']} | Öğle: ${day['dhuhr']} | İkindi: ${day['asr']} | Akşam: ${day['maghrib']} | Yatsı: ${day['isha']}',
+//                   ),
+//                 );
+//               },
+//             ),
+//     );
+//   }
+// }

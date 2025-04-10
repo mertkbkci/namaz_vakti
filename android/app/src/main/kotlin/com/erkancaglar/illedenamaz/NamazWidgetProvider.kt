@@ -10,10 +10,10 @@ class NamazWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds) {
             val prefs = context.getSharedPreferences("HomeWidgetPreferences", Context.MODE_PRIVATE)
-
             val views = RemoteViews(context.packageName, R.layout.namaz_widget)
 
             views.setTextViewText(R.id.time_fajr, "İmsak: ${prefs.getString("fajr", "--:--")}")
+            views.setTextViewText(R.id.time_sunrise, "Güneş: ${prefs.getString("sunrise", "--:--")}")
             views.setTextViewText(R.id.time_dhuhr, "Öğle: ${prefs.getString("dhuhr", "--:--")}")
             views.setTextViewText(R.id.time_asr, "İkindi: ${prefs.getString("asr", "--:--")}")
             views.setTextViewText(R.id.time_maghrib, "Akşam: ${prefs.getString("maghrib", "--:--")}")

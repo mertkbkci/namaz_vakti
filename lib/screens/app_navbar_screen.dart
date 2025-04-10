@@ -15,7 +15,7 @@ class AppNavbarScreen extends StatelessWidget {
       length: 4,
       child: Scaffold(
         bottomNavigationBar: Container(
-          color: Colors.green,
+          color: Colors.blue,
           height: 70,
           child: TabBar(tabs: [
             Tab(icon: Icon(Iconsax.home5, color: Colors.white, size: 30, ),text: "Ana Sayfa",),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:namaz_vakti/model/yeni/prayers_time_model.dart';
 import 'package:namaz_vakti/services/settings_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:permission_handler/permission_handler.dart';
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
@@ -17,9 +19,38 @@ class NotificationService {
 
     await _notificationsPlugin.initialize(initSettings);
     tz.initializeTimeZones();
+     await requestNotificationPermission();
+  }
+
+   static Future<void> requestNotificationPermission() async {
+    if (await Permission.notification.isDenied) {
+      await Permission.notification.request();
+    }
   }
 
 
+
+Future<void> planPrayerNotifications(PrayersTimeModel prayersTimeModel) async {
+  final times = prayersTimeModel.times.entries.first.value; // Bugün için vakitler
+  final date = DateTime.now(); // Bugünün tarihi
+
+  final prayerNames = ["İmsak", "Güneş", "Öğle", "İkindi", "Akşam", "Yatsı"];
+
+  for (int i = 0; i < times.length; i++) {
+    final timeParts = times[i].split(':');
+    final hour = int.parse(timeParts[0]);
+    final minute = int.parse(timeParts[1]);
+
+    final scheduledDateTime = DateTime(date.year, date.month, date.day, hour, minute);
+
+    await NotificationService.scheduleNotification(
+      id: i + 1,
+      title: 'Namaz Vakti',
+      body: '${prayerNames[i]} vakti geldi!',
+      dateTime: scheduledDateTime,
+    );
+  }
+}
  
 static Future<void> scheduleNotification({
   required int id,
@@ -41,6 +72,7 @@ debugPrint("📅 Planlanan bildirim zamanı: $scheduledTime");
     priority: Priority.high,
     sound: RawResourceAndroidNotificationSound('ezan'), 
     playSound: true,
+     icon: 'kaba',
   );
 
   final silentDetails = const AndroidNotificationDetails(
@@ -50,6 +82,7 @@ debugPrint("📅 Planlanan bildirim zamanı: $scheduledTime");
     importance: Importance.max,
     priority: Priority.high,
     playSound: false,
+     icon: 'kaba',
   );
 
   await _notificationsPlugin.zonedSchedule(
@@ -76,6 +109,7 @@ static Future<void> showTestNotification() async {
         'Test Kanalı',
         importance: Importance.max,
         priority: Priority.high,
+          icon: 'kaba',
       ),
     ),
     androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
